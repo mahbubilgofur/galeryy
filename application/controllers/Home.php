@@ -45,59 +45,59 @@ class Home extends CI_Controller
     public function detail_foto($id_foto)
     {
         $DATA['foto'] = $this->M_foto->getIdFoto($id_foto);
+        $DATA['fotos'] = $this->M_like->getFotoById($id_foto);
         $DATA['data_user'] = $this->M_user->getuser();
-        // $DATA['photos'] = $this->M_foto->getFoto_id_album($);
+        $DATA['role_id'] = $this->session->userdata('role_id');
+        $DATA['is_liked'] = $this->is_liked($id_foto);
+
+        // Mungkin Anda ingin mengambil data lain yang berhubungan dengan foto
+        // $DATA['comments'] = $this->M_comment->getCommentsByFotoId($id_foto);
+
         $this->load->view('home/header', $DATA);
         $this->load->view('home/detail_foto', $DATA);
     }
 
-    public function like()
+    public function add_like($id_foto)
     {
-        $id_foto = $this->input->post('id_foto');
-        $id_user = $this->session->userdata('id_user');
-
-        // Logika untuk menyimpan data like ke dalam tabel tbl_like
-        $this->load->model('M_like');
-        $like_data = $this->M_like->check_like($id_foto, $id_user);
-
-        if (!$like_data) {
-            // Belum dilike, tambahkan like
-            $id_like = $this->M_like->add_like($id_foto, $id_user);
-            echo json_encode(array('status' => 'liked', 'id_like' => $id_like));
-        } else {
-            // Sudah dilike, hapus like
-            $this->M_like->remove_like($like_data->id_like);
-            echo json_encode(array('status' => 'unliked'));
-        }
-    }
-    public function check_role()
-    {
-        // Logika untuk memeriksa role_id (sesuaikan dengan struktur user Anda)
+        // Lakukan verifikasi role_id atau kondisi lain yang diperlukan
         $role_id = $this->session->userdata('role_id');
-
-        if ($role_id == 1 || $role_id == 2) {
-            echo json_encode(array('status' => 'authenticated'));
-        } else {
-            echo json_encode(array('status' => 'unauthenticated'));
+        if ($role_id != 1 && $role_id != 2) {
+            // Tambahkan logika atau tindakan lain jika role_id tidak memenuhi syarat
+            redirect('login'); // Ganti dengan URL yang sesuai
+            return;
         }
+
+        // Lakukan penambahan like
+        $id_user = $this->session->userdata('id_user'); // Sesuaikan dengan cara Anda mengelola sesi login
+        $this->M_like->add_like($id_foto, $id_user);
+
+        // Redirect kembali ke halaman foto atau halaman lain yang sesuai
+        redirect('home/detail_foto/' . $id_foto);
     }
-    // Contoh di dalam controller Home
-    public function get_status_like()
+
+    // Fungsi untuk memeriksa apakah foto sudah dilike oleh pengguna
+    private function is_liked($id_foto)
     {
-        $id_foto = $this->input->post('id_foto');
-        $id_user = $this->session->userdata('id_user');
-
-        $this->load->model('M_like');
-        $like_data = $this->M_like->check_like($id_foto, $id_user);
-
-        if ($like_data) {
-            echo json_encode(array('status' => 'liked'));
-        } else {
-            echo json_encode(array('status' => 'unliked'));
-        }
+        $id_user = $this->session->userdata('id_user'); // Sesuaikan dengan cara Anda mengelola sesi login
+        return $this->M_like->isLiked($id_foto, $id_user);
     }
-    // menghitung jumlah data di tbL like
+    public function remove_like($id_foto)
+    {
+        // Lakukan verifikasi role_id atau kondisi lain yang diperlukan
+        $role_id = $this->session->userdata('role_id');
+        if ($role_id != 1 && $role_id != 2) {
+            // Tambahkan logika atau tindakan lain jika role_id tidak memenuhi syarat
+            redirect('login'); // Ganti dengan URL yang sesuai
+            return;
+        }
 
+        // Lakukan penghapusan like
+        $id_user = $this->session->userdata('id_user'); // Sesuaikan dengan cara Anda mengelola sesi login
+        $this->M_like->remove_like($id_foto, $id_user);
+
+        // Redirect kembali ke halaman foto atau halaman lain yang sesuai
+        redirect('home/detail_foto/' . $id_foto); // Ganti dengan URL yang sesuai
+    }
     public function upload()
     {
         $this->load->view('home/header');
@@ -105,14 +105,36 @@ class Home extends CI_Controller
     }
     public function upload_album()
     {
+        if (!$this->session->userdata('role_id')) {
+            // Redirect to the login page or handle the case if the user is not logged in
+            redirect('login');
+        }
         $this->load->view('home/header');
         $this->load->view('home/upload_album');
     }
+    public function upload_foto()
+    {
+        // Check if the user is logged in
+        if (!$this->session->userdata('role_id')) {
+            // Redirect to the login page or handle the case if the user is not logged in
+            redirect('login');
+        }
+
+        // Get the id_user from the session
+        $id_user = $this->session->userdata('id_user');
+
+        // Fetch albums with joined foto data for the view based on id_user
+        $data['data_album'] = $this->M_foto->getAlbumsdanId_user($id_user);
+
+        $this->load->view('home/header');
+        $this->load->view('home/upload_foto', $data);
+    }
+
 
     public function add_album()
     {
         // Periksa apakah pengguna sudah login
-        if (!$this->session->userdata('id_user')) {
+        if (!$this->session->userdata('role_id')) {
             // Redirect ke halaman login atau tangani kasus jika pengguna belum login
             redirect('login');
         }
@@ -145,5 +167,85 @@ class Home extends CI_Controller
             $this->load->view('home/header');
             $this->load->view('home/upload_album');
         }
+    }
+
+    public function add_foto()
+    {
+        if ($this->input->post()) {
+            if (!$this->session->userdata('role_id')) {
+                redirect('login');
+            }
+
+            $config['upload_path'] = './fotos/';
+            $config['allowed_types'] = 'jpg|jpeg|png';
+            $config['max_size'] = 1024;
+
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('lokasi_file')) {
+                $upload_data = $this->upload->data();
+
+                // Get id_user from session
+                $id_user = $this->session->userdata('id_user');
+
+                $data = array(
+                    'judul_foto' => $this->input->post('judul_foto'),
+                    'deskripsi_foto' => $this->input->post('deskripsi_foto'),
+                    'tgl_unggah' => date('Y-m-d H:i:s'),
+                    'lokasi_file' => $upload_data['file_name'],
+                    'id_album' => $this->input->post('id_album'),
+                    'id_user' => $id_user, // Set id_user from session
+                );
+
+                $this->M_foto->insertFoto($data);
+
+                redirect('home'); // Redirect or show success message
+            } else {
+                $error = array('error' => $this->upload->display_errors());
+                $data['albums'] = $this->M_album->getAlbums(); // Fetch albums for the view
+                $this->load->view('home/header');
+                $this->load->view('home/upload_album', $error);
+            }
+        } else {
+            $data['albums'] = $this->M_album->getAlbums(); // Fetch albums for the view
+            $this->load->view('home/header');
+            $this->load->view('home/upload_album', $data);
+        }
+    }
+
+
+    public function profil()
+    {
+        if (!$this->session->userdata('role_id')) {
+            // Redirect to the login page or handle the case if the user is not logged in
+            redirect('login');
+        }
+        $DATA['albums'] = $this->M_album->getAlbums();
+        $this->load->view('home/header');
+        $this->load->view('home/profil', $DATA);
+        $this->load->view('home/content-profil', $DATA);
+    }
+    public function profil_foto()
+    {
+        // Pastikan user sudah login dengan role_id tertentu
+        if (!$this->session->userdata('role_id')) {
+            // Redirect to the login page or handle the case if the user is not logged in
+            redirect('login');
+        }
+
+        // Dapatkan id_user dari session
+        $id_user = $this->session->userdata('id_user');
+
+        // Load model M_album dan M_foto
+        $this->load->model('M_foto');
+
+
+        // Panggil fungsi getFotoByIdUser dari model M_foto
+        $DATA['fotos'] = $this->M_foto->getFotoByIdUser($id_user);
+
+        // Load view dengan data yang telah diambil
+        $this->load->view('home/header');
+        $this->load->view('home/profil', $DATA);
+        $this->load->view('home/content-foto', $DATA);
     }
 }

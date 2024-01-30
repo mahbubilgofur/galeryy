@@ -11,8 +11,8 @@
                             <!-- <p><?php echo $photo->lokasi_file; ?></p> -->
                         </div>
                         <div class="b-b">
-                            <p><?php echo $photo->judul_foto; ?></p>
-                            <p><?php echo $photo->tgl_unggah; ?></p>
+                            <h2><?php echo $photo->judul_foto; ?></h2>
+                            <h6><?php echo $photo->tgl_unggah; ?></h6>
                         </div>
                     </div>
                 </a>

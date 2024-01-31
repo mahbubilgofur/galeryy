@@ -40,27 +40,72 @@
             $this->load->view('album/add');
         }
 
+        // public function add_album()
+        // {
+        //     // Form submission logic for creating album
+        //     if ($this->input->post()) {
+        //         $data = array(
+        //             'nama_album' => $this->input->post('nama_album'),
+        //             'deskripsi' => $this->input->post('deskripsi'),
+        //             'tgl_buat' => date('Y-m-d H:i:s'), // Tanggal dibuat diisi dengan waktu sekarang
+        //             'id_user' => $this->input->post('id_user'),
+        //         );
+
+        //         $this->M_album->insertAlbum($data);
+
+        //         // Redirect or show success message
+        //         redirect('album');
+        //     } else {
+        //         // Load view jika form tidak disubmit
+        //         $this->load->view('admin/sidebar');
+        //         $this->load->view('album/add'); 
+        //     }
+        // }
+
         public function add_album()
         {
             // Form submission logic for creating album
             if ($this->input->post()) {
-                $data = array(
-                    'nama_album' => $this->input->post('nama_album'),
-                    'deskripsi' => $this->input->post('deskripsi'),
-                    'tgl_buat' => date('Y-m-d H:i:s'), // Tanggal dibuat diisi dengan waktu sekarang
-                    'id_user' => $this->input->post('id_user'),
-                );
+                // Konfigurasi upload gambar
+                $config['upload_path'] = './albums/'; // Sesuaikan dengan folder tempat menyimpan gambar
+                $config['allowed_types'] = 'jpg|jpeg|png';
+                $config['max_size'] = 1024;  // Maksimal 1 MB
 
-                $this->M_album->insertAlbum($data);
+                // Load library upload
+                $this->load->library('upload', $config);
 
-                // Redirect or show success message
-                redirect('album');
+                // Lakukan upload gambar
+                if ($this->upload->do_upload('cover')) {
+                    $upload_data = $this->upload->data();
+                    $cover_path = $upload_data['file_name'];
+
+                    // Data album
+                    $data = array(
+                        'nama_album' => $this->input->post('nama_album'),
+                        'deskripsi' => $this->input->post('deskripsi'),
+                        'tgl_buat' => date('Y-m-d H:i:s'), // Tanggal dibuat diisi dengan waktu sekarang
+                        'id_user' => $this->input->post('id_user'),
+                        'cover' => $cover_path // Menyimpan nama file gambar ke dalam kolom cover
+                    );
+
+                    // Memanggil model untuk menyimpan data album
+                    $this->M_album->insertAlbum($data);
+
+                    // Redirect or show success message
+                    redirect('album');
+                } else {
+                    // Jika upload gagal, tampilkan pesan error
+                    $error = array('error' => $this->upload->display_errors());
+                    print_r($error);
+                }
             } else {
                 // Load view jika form tidak disubmit
                 $this->load->view('admin/sidebar');
-                $this->load->view('album/add'); 
+                $this->load->view('album/add');
             }
         }
+
+
         public function edit($id)
         {
             $data['album'] = $this->M_album->getAlbumById($id);
@@ -72,13 +117,43 @@
         {
             // Form submission logic for updating album
             if ($this->input->post()) {
+                // Konfigurasi upload gambar
+                $config['upload_path'] = './albums/';
+                $config['allowed_types'] = 'jpg|jpeg|png';
+                $config['max_size'] = 1024;
+
+                // Load library upload
+                $this->load->library('upload', $config);
+
+                // Retrieve album data
+                $album = $this->M_album->getAlbumById($id);
+
+                // Lakukan upload gambar jika ada
+                if ($this->upload->do_upload('cover')) {
+                    // Hapus cover lama jika ada
+                    $old_cover = $album->cover;
+                    if (!empty($old_cover)) {
+                        unlink('./albums/' . $old_cover);
+                    }
+
+                    // Simpan cover yang baru diupload
+                    $upload_data = $this->upload->data();
+                    $cover_path = $upload_data['file_name'];
+                } else {
+                    // Jika tidak ada upload baru, gunakan cover lama
+                    $cover_path = $album->cover;
+                }
+
+                // Data album
                 $data = array(
                     'nama_album' => $this->input->post('nama_album'),
                     'deskripsi' => $this->input->post('deskripsi'),
                     'tgl_buat' => date('Y-m-d H:i:s'), // Tanggal dibuat diisi dengan waktu sekarang
                     'id_user' => $this->input->post('id_user'),
+                    'cover' => $cover_path // Menyimpan nama file gambar ke dalam kolom cover
                 );
 
+                // Memanggil model untuk mengupdate data album
                 $this->M_album->updateAlbum($id, $data);
 
                 // Redirect or show success message
@@ -96,6 +171,7 @@
                 $this->load->view('album/edit', $data);
             }
         }
+
 
 
         public function delete($id)

@@ -179,17 +179,40 @@ class Home extends CI_Controller
         // Logika pengiriman formulir untuk membuat album
         if ($this->form_validation->run() == TRUE) {
             // Form validation successful
-            $data = array(
-                'nama_album' => $this->input->post('nama_album'),
-                'deskripsi' => $this->input->post('deskripsi'),
-                'tgl_buat' => date('Y-m-d H:i:s'), // Tanggal dibuat diisi dengan waktu sekarang
-                'id_user' => $id_user, // Gunakan ID pengguna yang sedang login
-            );
 
-            $this->M_album->insertAlbum($data);
+            // Konfigurasi upload gambar
+            $config['upload_path'] = './albums/';
+            $config['allowed_types'] = 'jpg|jpeg|png';
+            $config['max_size'] = 1024;  // Maksimal 1 MB
 
-            // Redirect atau tampilkan pesan keberhasilan
-            redirect('home');
+            // Load library upload
+            $this->load->library('upload', $config);
+
+            // Lakukan upload gambar jika ada
+            if ($this->upload->do_upload('cover')) {
+                // Upload berhasil
+                $upload_data = $this->upload->data();
+                $cover_path = $upload_data['file_name'];
+
+                // Data album
+                $data = array(
+                    'nama_album' => $this->input->post('nama_album'),
+                    'deskripsi' => $this->input->post('deskripsi'),
+                    'tgl_buat' => date('Y-m-d H:i:s'), // Tanggal dibuat diisi dengan waktu sekarang
+                    'id_user' => $id_user, // Gunakan ID pengguna yang sedang login
+                    'cover' => $cover_path // Menyimpan nama file gambar ke dalam kolom cover
+                );
+
+                $this->M_album->insertAlbum($data);
+
+                // Redirect atau tampilkan pesan keberhasilan
+                redirect('home');
+            } else {
+                // Upload gagal, tampilkan pesan error
+                $error = array('error' => $this->upload->display_errors());
+                print_r($error);
+                return;
+            }
         } else {
             // Form validation failed or form not submitted
 
@@ -198,6 +221,7 @@ class Home extends CI_Controller
             $this->load->view('home/upload_album');
         }
     }
+
 
     public function add_foto()
     {
@@ -303,5 +327,15 @@ class Home extends CI_Controller
         $this->load->view('home/header');
         $this->load->view('home/profil', $data);
         $this->load->view('home/content-like', $data);
+    }
+
+
+
+
+    // halamancari
+    public function cari_foto()
+    {
+        $this->load->view('home/header');
+        $this->load->view('home/fitur-cari');
     }
 }

@@ -10,7 +10,8 @@
             <div class="row">
                 <div class="col-md-6">
                     <!-- Form Start -->
-                    <?php echo form_open('album/add_album', 'class="album-form"'); ?>
+                    <!-- Form Start -->
+                    <?php echo form_open_multipart('album/add_album', 'class="album-form"'); ?>
                     <div class="form-group">
                         <label for="nama_album">Nama Album</label>
                         <input type="text" class="form-control" id="nama_album" name="nama_album" required>
@@ -23,9 +24,15 @@
                         <label for="id_user">ID User</label>
                         <input type="number" class="form-control" id="id_user" name="id_user" required>
                     </div>
+                    <div class="form-group">
+                        <label for="cover">Cover</label>
+                        <input type="file" class="form-control" id="cover" name="cover" accept="image/*">
+                    </div>
 
                     <button type="submit" class="btn btn-primary">Simpan</button>
                     <?php echo form_close(); ?>
+                    <!-- Form End -->
+
                     <!-- Form End -->
                 </div>
             </div>

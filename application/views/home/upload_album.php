@@ -14,8 +14,8 @@
         justify-content: center;
         background-color: rgba(0, 0, 0, 0.218);
         flex-direction: column;
-        width: 200px;
-        height: 300px;
+        width: 300px;
+        height: 400px;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -31,7 +31,7 @@
     }
 
     .atr {
-        margin-left: 20px;
+        margin-left: 40px;
         display: flex;
         width: 100%;
         justify-content: space-between;
@@ -69,9 +69,11 @@
         margin-bottom: 15px;
         border-radius: 4px;
         border: 1px black;
+        margin-left: 20px;
     }
 
     .textarea-input {
+        margin-left: 20px;
         border: 1px black;
         width: 100%;
         height: 60px;
@@ -99,12 +101,17 @@
     <div class="upload_alb-b">
         <h2>Add Album</h2>
         <?php echo validation_errors(); ?>
-        <?php echo form_open('home/add_album'); ?>
+        <?php echo form_open_multipart('home/add_album'); ?>
         <div class="upload_albb">
             <label for="nama_album">Nama Album:</label>
             <input type="text" name="nama_album" class="form-input" required value="<?php echo set_value('nama_album'); ?>" />
             <label for="deskripsi">Deskripsi:</label>
             <textarea name="deskripsi" class="textarea-input" required><?php echo set_value('deskripsi'); ?></textarea>
+            <label for="deskripsi">Upload Cover:</label>
+            <div class="type">
+                <input type="file" name="cover" class="form-input" required />
+                <p>Maksimal Ukuran 1 MB</p>
+            </div>
             <div class="atr">
                 <a href="<?= base_url('home/upload') ?>">
                     <div class="kml-alb">Kembali</div>

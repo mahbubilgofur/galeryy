@@ -16,7 +16,8 @@
         <div class="mid-h">
             <form action="">
                 <div class="cari">
-                    <input type="text" placeholder="Cari.......">
+                    <input type="text" placeholder="Temukan user......">
+                    <div class="cari-usr"><img src="<?= base_url('img/cari.png') ?>" alt=""></div>
                 </div>
             </form>
         </div>

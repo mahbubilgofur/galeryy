@@ -10,6 +10,7 @@
                 <th>Deskripsi</th>
                 <th>Tanggal Dibuat</th>
                 <th>ID User</th>
+                <th>Cover</th> <!-- Tambahkan kolom Cover di sini -->
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -21,6 +22,13 @@
                     <td><?php echo $album->deskripsi; ?></td>
                     <td><?php echo $album->tgl_buat; ?></td>
                     <td><?php echo $album->id_user; ?></td>
+                    <td>
+                        <?php if (!empty($album->cover)) { ?>
+                            <img src="<?= base_url('albums/' . $album->cover); ?>" alt="Cover" width="50" height="50">
+                        <?php } else { ?>
+                            No Cover
+                        <?php } ?>
+                    </td>
                     <td>
                         <!-- Tambahkan tombol Edit dan Delete dengan link ke fungsi di controller -->
                         <a href="<?php echo base_url('album/edit/' . $album->id_album); ?>" class="btn btn-warning">Edit</a>

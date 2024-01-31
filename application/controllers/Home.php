@@ -49,12 +49,42 @@ class Home extends CI_Controller
         $DATA['data_user'] = $this->M_user->getuser();
         $DATA['role_id'] = $this->session->userdata('role_id');
         $DATA['is_liked'] = $this->is_liked($id_foto);
-
-        // Mungkin Anda ingin mengambil data lain yang berhubungan dengan foto
-        // $DATA['comments'] = $this->M_comment->getCommentsByFotoId($id_foto);
-
+        $DATA['komentars'] = $this->M_komentar->getCommentsByFotoId($id_foto);
         $this->load->view('home/header', $DATA);
         $this->load->view('home/detail_foto', $DATA);
+    }
+
+    public function add_komentar()
+    {
+        $role_id = $this->session->userdata('role_id');
+        if ($role_id != 1 && $role_id != 2) {
+            // Tambahkan logika atau tindakan lain jika role_id tidak memenuhi syarat
+            redirect('login'); // Ganti dengan URL yang sesuai
+            return;
+        }
+
+        $id_user = $this->session->userdata('id_user');
+        $isi_komentar = $this->input->post('isi_komentar');
+        $tgl_komentar = date('Y-m-d H:i:s');
+        $id_foto = $this->input->post('id_foto'); // Ambil id_foto dari formulir
+
+        // Memastikan isi_komentar tidak kosong
+        if (empty($isi_komentar)) {
+            // Handle error, bisa menampilkan pesan kesalahan atau melakukan tindakan lain
+            redirect(base_url('home/detail_foto/' . $id_foto)); // Ganti dengan redirect atau tindakan lain yang sesuai
+        }
+
+        $data = array(
+            'id_foto' => $id_foto,
+            'id_user' => $id_user,
+            'isi_komentar' => $isi_komentar,
+            'tgl_komentar' => $tgl_komentar
+        );
+
+        $this->M_komentar->add_komentar($data);
+
+        // Redirect atau lakukan hal lain sesuai kebutuhan
+        redirect(base_url('home/detail_foto/' . $id_foto));
     }
 
     public function add_like($id_foto)
@@ -220,10 +250,11 @@ class Home extends CI_Controller
             // Redirect to the login page or handle the case if the user is not logged in
             redirect('login');
         }
-        $DATA['albums'] = $this->M_album->getAlbums();
+        $id_user = $this->session->userdata('id_user');
+        $data['albums'] = $this->M_album->getIdalbumadnduser($id_user);
         $this->load->view('home/header');
-        $this->load->view('home/profil', $DATA);
-        $this->load->view('home/content-profil', $DATA);
+        $this->load->view('home/profil', $data);
+        $this->load->view('home/content-profil', $data);
     }
     public function profil_foto()
     {
@@ -247,5 +278,30 @@ class Home extends CI_Controller
         $this->load->view('home/header');
         $this->load->view('home/profil', $DATA);
         $this->load->view('home/content-foto', $DATA);
+    }
+    public function profil_like()
+    {
+        // Pastikan user sudah login dengan role_id tertentu
+        if (!$this->session->userdata('role_id')) {
+            // Redirect to the login page or handle the case if the user is not logged in
+            redirect('login');
+        }
+
+        // Dapatkan id_user dari session
+        $id_user = $this->session->userdata('id_user');
+
+        // Load model M_like
+        $this->load->model('M_like');
+
+        // Panggil fungsi getLikedPhotosByIdUser dari model M_like
+        $liked_photos = $this->M_like->getLikedPhotosByIdUser($id_user);
+
+        // Kirim data foto yang sudah di-like ke view
+        $data['liked_photos'] = $liked_photos;
+
+        // Load view dengan data yang telah diambil
+        $this->load->view('home/header');
+        $this->load->view('home/profil', $data);
+        $this->load->view('home/content-like', $data);
     }
 }

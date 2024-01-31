@@ -36,4 +36,10 @@ class M_album extends CI_Model
         $this->db->where('id_album', $id);
         $this->db->delete('tbl_album');
     }
+    public function getIdalbumadnduser($id_user)
+    {
+        $this->db->where('id_user', $id_user);
+        $query = $this->db->get('tbl_album');
+        return $query->result();
+    }
 }

@@ -92,4 +92,12 @@ class M_like extends CI_Model
         $query = $this->db->get_where('tbl_foto', array('id_foto' => $id_foto));
         return $query->row_array();
     }
+    public function getLikedPhotosByIdUser($id_user)
+    {
+        $this->db->select('tbl_foto.*');
+        $this->db->from('tbl_foto');
+        $this->db->join('tbl_like', 'tbl_foto.id_foto = tbl_like.id_foto');
+        $this->db->where('tbl_like.id_user', $id_user);
+        return $this->db->get()->result();
+    }
 }

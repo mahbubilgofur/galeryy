@@ -33,4 +33,32 @@ class M_komentar extends CI_Model
         // Hapus data komentar berdasarkan ID
         return $this->db->delete('tbl_komentar', array('id_komen' => $id));
     }
+
+    public function add_komentar($data)
+    {
+        $this->db->insert('tbl_komentar', $data);
+    }
+
+    public function getCommentsByFotoId($id_foto)
+    {
+        $this->db->select('tbl_komentar.*, tbl_user.username');
+        $this->db->from('tbl_komentar');
+        $this->db->join('tbl_user', 'tbl_komentar.id_user = tbl_user.id_user');
+        $this->db->where('tbl_komentar.id_foto', $id_foto);
+        $this->db->order_by('tbl_komentar.tgl_komentar', 'asc');
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function add_komentars($id_foto, $id_user)
+    {
+        $data = array(
+            'id_foto' => $id_foto,
+            'id_user' => $id_user,
+            'tgl_komentar' => date('Y-m-d H:i:s')
+        );
+
+        $this->db->insert('tbl_like', $data);
+        return $this->db->insert_id();
+    }
 }

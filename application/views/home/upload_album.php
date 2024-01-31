@@ -68,7 +68,6 @@
         height: 30px;
         margin-bottom: 15px;
         border-radius: 4px;
-        margin-left: 30px;
         border: 1px black;
     }
 
@@ -78,7 +77,6 @@
         height: 60px;
         margin-bottom: 15px;
         border-radius: 4px;
-        margin-left: 30px;
     }
 
     .submit-btn {

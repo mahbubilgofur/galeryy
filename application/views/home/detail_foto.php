@@ -24,19 +24,29 @@
                     <a href="<?= base_url('login') ?>">
                         <p>🤍</p>
                     </a>
-
                 <?php endif; ?>
-
-
                 <p>💬</p>
             </div>
             <div class="bottom-c">
-
+                <?php foreach ($komentars as $komentar) : ?>
+                    <div class="komen-user">
+                        <div class="komen-user1">
+                            <h4><?= $komentar['username'] ?></h4>
+                        </div>
+                        <div class="komen-user2">
+                            <p><?= $komentar['isi_komentar'] ?></p>
+                        </div>
+                        <div class="tgl-komen">
+                            <p><?= $komentar['tgl_komentar'] ?></p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
-            <form action="">
+            <form action="<?= base_url('home/add_komentar') ?>" method="post">
                 <div class="bottom-m">
-                    <input type="text" name="" id="" placeholder="Komentar.....">
-                    <a href="<?= base_url('#') ?>">=></a>
+                    <input type="hidden" name="id_foto" value="<?= $fotos['id_foto'] ?>">
+                    <input type="text" name="isi_komentar" id="" placeholder="Komentar.....">
+                    <a type="submit">=></a>
                 </div>
             </form>
         </div>

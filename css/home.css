@@ -280,17 +280,56 @@ a,
 	font-size: 20px;
 }
 .bottom-c {
+	overflow: auto;
 	border-top: 1px solid rgba(0, 0, 0, 0.15);
 	width: 100%;
 	height: 60%;
 	display: flex;
+	align-items: start;
+	justify-content: start;
+	flex-direction: column;
+	background-color: rgb(255, 255, 255);
+}
+.komen-user {
+	display: flex;
 	align-items: center;
 	justify-content: center;
+	flex-direction: column;
+	width: 90%;
+	margin-left: 10px;
+	height: 20%;
 	background-color: rgb(255, 255, 255);
+}
+.komen-user1 {
+	display: flex;
+	align-items: start;
+	justify-content: start;
+	width: 100%;
+	height: 20%;
+}
+.komen-user2 {
+	display: flex;
+	align-items: start;
+	justify-content: start;
+	width: 100%;
+	height: 20%;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+.tgl-komen {
+	display: flex;
+	align-items: start;
+	justify-content: start;
+	width: 100%;
+	height: 60%;
+}
+.tgl-komen p {
+	font-size: 11px;
+	color: black;
 }
 .bottom-m {
 	display: flex;
-	align-items: center;
+	align-items: start;
 	justify-content: center;
 	border-radius: 4px;
 	width: 100%;
@@ -385,6 +424,7 @@ halaman profil */
 }
 .mid-profil a {
 	color: black;
+	margin: 10px;
 }
 
 .mid-profil .albummm {
@@ -394,6 +434,12 @@ halaman profil */
 	border-bottom: 3px solid black;
 }
 .mid-profil .fotooo {
+	margin: 10px;
+	color: black;
+	font-size: 19px;
+	border-bottom: 3px solid black;
+}
+.mid-profil .likeee {
 	margin: 10px;
 	color: black;
 	font-size: 19px;

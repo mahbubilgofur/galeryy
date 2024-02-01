@@ -35,30 +35,15 @@ class M_like extends CI_Model
         // Hapus data like berdasarkan ID dari tabel 'tbl_like'
         $this->db->delete('tbl_like', array('id_like' => $id));
     }
-    // public function check_like($id_foto, $id_user)
-    // {
-    //     $this->db->where('id_foto', $id_foto);
-    //     $this->db->where('id_user', $id_user);
-    //     return $this->db->get('tbl_like')->row();
-    // }
 
-    // public function add_like($id_foto, $id_user)
-    // {
-    //     $data = array(
-    //         'id_foto' => $id_foto,
-    //         'id_user' => $id_user,
-    //         'tgl_like' => date('Y-m-d H:i:s')
-    //     );
-    //     $this->db->insert('tbl_like', $data);
-    //     return $this->db->insert_id();
-    // }
-
-    // public function remove_like($id_like)
-    // {
-    //     $this->db->where('id_like', $id_like);
-    //     $this->db->delete('tbl_like');
-    // }
-
+    public function hitungjumlahlike($id_foto)
+    {
+        $this->db->select('COUNT(id_like) as jumlah_like');
+        $this->db->from('tbl_like');
+        $this->db->where('id_foto', $id_foto);
+        $query = $this->db->get();
+        return $query->row()->jumlah_like;
+    }
 
     public function add_like($id_foto, $id_user)
     {

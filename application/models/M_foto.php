@@ -33,7 +33,7 @@ class M_foto extends CI_Model
         // Hapus data foto berdasarkan ID
         $this->db->delete('tbl_foto', array('id_foto' => $id));
     }
-    public function getFoto_id_album($id_album)
+    public function getFotaso_id_album($id_album)
     {
         $this->db->select('*');
         $this->db->from('tbl_foto');
@@ -41,6 +41,30 @@ class M_foto extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    // Contoh pada M_foto model
+    // Contoh pada M_foto model
+    public function getFoto_id_album($id_album)
+    {
+        $this->db->select('tbl_foto.*, tbl_user.username, tbl_user.profil');
+        $this->db->from('tbl_foto');
+        $this->db->join('tbl_user', 'tbl_foto.id_user = tbl_user.id_user');
+        $this->db->where('tbl_foto.id_album', $id_album);
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+    public function getUser_andid_foto($id_foto)
+    {
+        $this->db->select('tbl_user.username, tbl_user.profil');
+        $this->db->from('tbl_user');
+        $this->db->join('tbl_foto', 'tbl_user.id_user = tbl_foto.id_user');
+        $this->db->where('tbl_foto.id_foto', $id_foto);
+
+        $query = $this->db->get();
+
+        return $query->row_array();
+    }
+
     public function getIdFoto($id_foto)
     {
         $this->db->where('id_foto', $id_foto);

@@ -9,7 +9,8 @@
             <div class="row">
                 <div class="col-md-6">
                     <!-- Form Start -->
-                    <?php echo form_open('user/add_user', 'class="user-form"'); ?>
+                    <!-- Form Start -->
+                    <?php echo form_open_multipart('user/add_user', 'class="user-form"'); ?>
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" class="form-control" id="username" name="username" required>
@@ -33,6 +34,8 @@
 
                     <button type="submit" class="btn btn-primary">Simpan</button>
                     <?php echo form_close(); ?>
+                    <!-- Form End -->
+
                     <!-- Form End -->
                 </div>
             </div>

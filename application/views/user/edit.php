@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <!-- Form Start -->
-                    <?php echo form_open('user/update/' . $user->id_user, 'class="user-form"'); ?>
+                    <?php echo form_open_multipart('user/update/' . $user->id_user, 'class="user-form"'); ?>
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" class="form-control" id="username" name="username" value="<?php echo $user->username; ?>" required>
@@ -35,7 +35,16 @@
                         <label for="role_id">Role ID</label>
                         <input type="number" class="form-control" id="role_id" name="role_id" value="<?php echo $user->role_id; ?>" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <div class="form-group">
+                        <label for="profil_image">Profil Image</label>
+                        <input type="file" class="form-control" id="profil_image" name="profil_image" accept="image/*">
+                        <?php if (!empty($user->profil)) : ?>
+                            <div class="mt-2">
+                                <img src="<?php echo base_url('users/' . $user->profil); ?>" alt="Profil Image" class="img-thumbnail" style="max-width: 200px;">
+                            </div>
+                        <?php endif; ?>
+                        <input type="hidden" name="old_profil_image" value="<?php echo $user->profil; ?>">
+                    </div> <button type="submit" class="btn btn-primary">Update</button>
                     <?php echo form_close(); ?>
                     <!-- Form End -->
                 </div>

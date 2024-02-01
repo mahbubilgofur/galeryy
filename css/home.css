@@ -1,9 +1,13 @@
+*,
+html,
 body {
 	margin: 0;
+	padding: 0;
 	font-family: "Arial", sans-serif;
 }
 
 header {
+	z-index: 100;
 	background-color: #ffffff;
 	color: #000000;
 	text-align: center;
@@ -22,9 +26,10 @@ header {
 	align-items: center;
 	justify-content: center;
 }
-.logo h1 {
-	margin-left: 20px;
-	margin: 0;
+.logo img {
+	margin-top: 10px;
+	width: 60%;
+	height: 60%;
 }
 .mid-h {
 	width: 60%;
@@ -101,10 +106,11 @@ header {
 .content {
 	margin-top: 70px;
 	width: 100%;
-	min-height: 100vh;
+	height: 100vh;
 	display: flex;
-	justify-content: center;
-	align-items: start;
+	justify-content: start;
+	align-items: center;
+	flex-direction: column;
 	background-color: #ffffff;
 }
 .cnt {
@@ -113,23 +119,49 @@ header {
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
-	padding-bottom: 100px;
 }
+
 .cnt-awl {
+	z-index: 100;
+	position: fixed;
 	width: 100%;
-	height: 20%;
+	min-height: 60px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	background-color: rgb(255, 255, 255);
-	flex-wrap: wrap;
-	overflow-x: auto; /* Mengaktifkan overflow horizontal */
-	overflow-y: hidden; /* Menyembunyikan overflow vertikal */
-	white-space: nowrap; /* Mencegah pemindahan ke baris baru */
-	flex-wrap: nowrap;
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap;
 }
+.content-album-fotos {
+	background-color: rgb(255, 255, 255);
+	margin-top: 90px;
+	align-items: flex-start;
+	width: 90%;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+.foto-cont {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 10px;
+	width: 250px;
+	height: auto;
+	border: 1px solid rgba(0, 0, 0, 0.019);
+	background-color: rgba(0, 0, 0, 0.328);
+	border-radius: 10px;
+}
+.foto-cont img {
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+}
+
 .album {
-	/* transform: translateX(-50px); */
+	transform: translateX(110px);
 	margin: 10px;
 	width: 200px;
 	height: 50px;
@@ -191,7 +223,7 @@ a,
 }
 .foto {
 	margin: 10px;
-	width: 350px;
+	width: 300px;
 	height: 300px;
 	background-color: rgb(0, 0, 0);
 	display: flex;
@@ -201,33 +233,83 @@ a,
 	flex-direction: column;
 	border-radius: 10px;
 }
-
-.t-t {
+.top-fotos {
 	border-radius: 10px 10px 0 0;
 	width: 100%;
-	height: 70%;
+	height: 20%;
 	display: flex;
-	background-color: rgb(255, 255, 255);
+	align-items: center;
+	justify-content: center;
+}
+.left-profil {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 20%;
+	height: 100%;
+}
+.left-profil img {
+	width: 30px;
+	height: 30px;
+	border-radius: 100%;
+}
+.right-profil {
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	width: 80%;
+	height: 100%;
+}
+.right-profil p {
+	font-size: 15px;
+	color: #ffffff;
+}
+.t-t {
+	width: 100%;
+	height: 60%;
+	display: flex;
+	background-color: rgb(0, 0, 0);
 	justify-content: center;
 	color: rgb(0, 0, 0);
 	align-items: center;
 }
 .t-t img {
-	border-radius: 10px 10px 0 0;
 	width: 70%;
 	height: 100%;
 }
 .b-b {
+	background-color: #000000;
+	text-align: center;
+	width: 100%;
+	color: rgb(255, 255, 255);
+	height: 20%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	width: 100%;
-	color: rgb(255, 255, 255);
-	height: 30%;
 }
-.b-b p {
-	text-decoration: none;
+.b-h2 {
+	width: 100%;
+	height: 35%;
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+.b-h2 p {
+	font-size: 12px;
+	margin-left: 10px;
+}
+.b-b-b p {
+	font-size: 13px;
+	margin: 5px;
+}
+.b-b-b {
+	width: 100%;
+	height: 60%;
+	display: flex;
+	align-items: start;
+	justify-content: center;
 }
 
 /* batas */
@@ -288,7 +370,13 @@ a,
 	height: 20%;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: start;
+}
+.top-cc img {
+	width: 24px;
+	height: 24px;
+	border-radius: 100%;
+	padding-right: 3px;
 }
 .top-ccc {
 	text-align: justify;
@@ -329,35 +417,45 @@ a,
 	flex-direction: column;
 	width: 90%;
 	margin-left: 10px;
-	height: 20%;
+	height: 30%;
 	background-color: rgb(255, 255, 255);
 }
 .komen-user1 {
 	display: flex;
-	align-items: start;
-	justify-content: start;
-	width: 100%;
-	height: 20%;
-}
-.komen-user2 {
-	display: flex;
-	align-items: start;
+	align-items: center;
 	justify-content: start;
 	width: 100%;
 	height: 20%;
 	margin-top: 10px;
-	margin-bottom: 20px;
+}
+.komen-user img {
+	padding-right: 5px;
+	width: 20px;
+	height: 20px;
+	border-radius: 100%;
+}
+.komen-user2 {
+	margin-top: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	width: 100%;
+	height: 20%;
 }
 .tgl-komen {
 	display: flex;
-	align-items: start;
+	align-items: center;
 	justify-content: start;
 	width: 100%;
 	height: 60%;
 }
 .tgl-komen p {
+	padding-right: 10px;
 	font-size: 11px;
 	color: black;
+}
+.tgl-komen a {
+	font-size: 11px;
 }
 .bottom-m {
 	display: flex;
@@ -419,6 +517,12 @@ halaman profil */
 	padding-right: 40px;
 	padding-left: 50px;
 }
+.profil-a img {
+	border-radius: 100%;
+	width: 30px;
+	height: 30px;
+	padding-right: 2px;
+}
 .profil-a span {
 	color: black;
 	border-bottom: 1px solid black;
@@ -436,7 +540,7 @@ halaman profil */
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	margin-top: 70px;
+	margin-top: 90px;
 }
 .top-profil {
 	width: 80%;
@@ -446,6 +550,33 @@ halaman profil */
 	justify-content: center;
 	flex-direction: column;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.53);
+}
+.top1 {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 40%;
+}
+.top1 img {
+	width: 100px;
+	height: 100px;
+	border-radius: 100%;
+}
+.top2 {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 30%;
+	margin-top: 10px;
+}
+.top3 {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 30%;
 }
 .mid-profil {
 	width: 100%;
@@ -546,4 +677,40 @@ halaman cari  */
 	align-items: start;
 	justify-content: center;
 	margin-top: 70px;
+}
+
+/* modal hapus komen */
+.modal-container {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	justify-content: center;
+	align-items: center;
+	z-index: 1;
+}
+
+.modal {
+	width: 100px;
+	height: 100px;
+	background-color: #ccc;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content {
+	text-align: center;
+}
+
+@media (max-width: 768px) {
+	.modal {
+		width: 80%;
+		height: auto;
+	}
 }

@@ -14,8 +14,12 @@
             </a>
         <?php endforeach; ?>
     </div>
-    <div class="content-album">
-
+    <div class="content-album-fotos">
+        <?php foreach ($fotos as $foto) : ?>
+            <div class="foto-cont">
+                <img src="<?= base_url() ?>fotos/<?php echo $foto->lokasi_file; ?>" alt="">
+            </div>
+        <?php endforeach; ?>
     </div>
 </div>
 </body>

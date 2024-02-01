@@ -29,6 +29,7 @@ class Home extends CI_Controller
     }
     public function index()
     {
+        $DATA['fotos'] = $this->M_foto->getFotos();
         $DATA['data_user'] = $this->M_user->getuser();
         $DATA['albums'] = $this->M_album->getAlbums();
         $this->load->view('home/header', $DATA);
@@ -38,6 +39,22 @@ class Home extends CI_Controller
     {
         $DATA['data_user'] = $this->M_user->getuser();
         $DATA['photos'] = $this->M_foto->getFoto_id_album($id_album);
+        $DATA['likes'] = array();
+        // foreach ($DATA['photos'] as $photo) {
+        //     $jumlah_like = $this->M_like->hitungjumlahlike($photo->id_foto);
+        //     $DATA['likes'][$photo->id_foto] = $jumlah_like;
+
+        //     $jumlah_komentar = $this->M_komentar->hitungJumlahKomentarByIdFoto($photo->id_foto);
+        //     $DATA['komentars'][$photo->id_foto] = $jumlah_komentar;
+        // }
+        foreach ($DATA['photos'] as $photo) {
+            $jumlah_like = $this->M_like->hitungjumlahlike($photo['id_foto']);
+            $DATA['likes'][$photo['id_foto']] = $jumlah_like;
+
+            $jumlah_komentar = $this->M_komentar->hitungJumlahKomentarByIdFoto($photo['id_foto']);
+            $DATA['komentars'][$photo['id_foto']] = $jumlah_komentar;
+        }
+
         $this->load->view('home/header', $DATA);
         $this->load->view('home/foto', $DATA);
     }
@@ -45,6 +62,7 @@ class Home extends CI_Controller
     public function detail_foto($id_foto)
     {
         $DATA['foto'] = $this->M_foto->getIdFoto($id_foto);
+        $DATA['profils'] = $this->M_foto->getUser_andid_foto($id_foto);
         $DATA['fotos'] = $this->M_like->getFotoById($id_foto);
         $DATA['data_user'] = $this->M_user->getuser();
         $DATA['role_id'] = $this->session->userdata('role_id');
@@ -182,7 +200,7 @@ class Home extends CI_Controller
 
             // Konfigurasi upload gambar
             $config['upload_path'] = './albums/';
-            $config['allowed_types'] = 'jpg|jpeg|png';
+            $config['allowed_types'] = 'jpg|jpeg|png|webp';
             $config['max_size'] = 1024;  // Maksimal 1 MB
 
             // Load library upload

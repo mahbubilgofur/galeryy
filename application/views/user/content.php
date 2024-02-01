@@ -12,6 +12,7 @@
                 <th>Nama Lengkap</th>
                 <th>Alamat</th>
                 <th>Role</th>
+                <th>Gambar Profil</th> <!-- Kolom baru untuk gambar profil -->
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -26,13 +27,15 @@
                     <td><?php echo $row->alamat; ?></td>
                     <td><?php echo $row->role_id; ?></td>
                     <td>
+                        <img src="<?= base_url('users/' . $row->profil); ?>" alt="Cover" width="50" height="50">
+                    </td>
+                    <td>
                         <!-- Tambahkan tombol Edit dan Delete dengan link ke fungsi di controller -->
                         <a href="<?php echo base_url('user/edit/' . $row->id_user); ?>" class="btn btn-warning">Edit</a>
                         <a href="<?php echo base_url('user/delete/' . $row->id_user); ?>" class="btn btn-danger" onclick="return confirm('yakin mau hapus?')">Delete</a>
                     </td>
                 </tr>
             <?php } ?>
-
         </tbody>
     </table>
 </div>

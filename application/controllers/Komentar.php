@@ -106,4 +106,12 @@ class Komentar extends CI_Controller
         // Redirect or show success message
         redirect('komentar');
     }
+    public function hapus($id)
+    {
+        // Logic for deleting komentar
+        $this->M_komentar->deleteKomentar($id);
+
+        // Redirect or show success message
+        redirect('home/detail_foto/' . $id);
+    }
 }

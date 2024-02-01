@@ -57,6 +57,7 @@
         }
 
         .login-button {
+            margin-left: 90px;
             background-color: #007bff;
             color: #fff;
             padding: 12px;
@@ -84,6 +85,17 @@
         .register-text a:hover {
             text-decoration: underline;
         }
+
+        .kembali-L {
+            background-color: #007bff;
+            color: #fff;
+            padding: 7px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -101,7 +113,9 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
         </div>
+        <a href="<?= base_url('/') ?>" class="kembali-L">Kembali</a>
         <button type="submit" class="login-button">Login</button>
+
         <?php echo form_close(); ?>
         <p class="register-text">Belum punya akun? <a href="<?= base_url() ?>login/register">Daftar di sini</a></p>
     </div>

@@ -41,4 +41,29 @@ class M_user extends CI_Model
         $query = $this->db->get_where('tbl_user', array('email' => $email));
         return $query->row();
     }
+    public function get_data_user($id_user)
+    {
+        $query = $this->db->get_where('tbl_user', array('id_user' => $id_user));
+        return $query->row();
+    }
+
+    public function updateUserProfile($id_user, $data)
+    {
+        $this->db->where('id_user', $id_user);
+        $this->db->update('tbl_user', $data);
+    }
+    public function getStoredPasswordHash($user_id)
+    {
+        // Gantilah 'users' dengan nama tabel sesuai struktur database Anda
+        $this->db->select('password');
+        $this->db->where('id_user', $user_id);
+        $query = $this->db->get('tbl_user');
+
+        if ($query->num_rows() == 1) {
+            $user = $query->row();
+            return $user->password;
+        }
+
+        return false;
+    }
 }

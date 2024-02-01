@@ -18,6 +18,9 @@
         <div class="top3">
             <h5><?php echo $this->session->userdata('email'); ?></h5>
         </div>
+        <div class="top4">
+            <a href="<?= base_url('home/editprofil/' . $user_data['id_user']) ?>">Edit Profil</a>
+        </div>
 
 
     </div>

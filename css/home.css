@@ -28,8 +28,8 @@ header {
 }
 .logo img {
 	margin-top: 10px;
-	width: 60%;
-	height: 60%;
+	width: 50%;
+	height: 55%;
 }
 .mid-h {
 	width: 60%;
@@ -544,7 +544,7 @@ halaman profil */
 }
 .top-profil {
 	width: 80%;
-	height: 30%;
+	height: 40%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -568,7 +568,7 @@ halaman profil */
 	align-items: center;
 	justify-content: center;
 	width: 100%;
-	height: 30%;
+	height: 20%;
 	margin-top: 10px;
 }
 .top3 {
@@ -576,8 +576,39 @@ halaman profil */
 	align-items: center;
 	justify-content: center;
 	width: 100%;
-	height: 30%;
+	height: 20%;
 }
+.top4 {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 20%;
+}
+.top4 a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 20px;
+	text-decoration: none;
+	background-color: rgba(0, 0, 0, 0.075);
+	width: 90px;
+	height: 40px;
+	color: black;
+}
+.top4 a:hover {
+	transition: all 0.5s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 20px;
+	text-decoration: none;
+	background-color: rgba(0, 0, 0, 0.259);
+	width: 90px;
+	height: 40px;
+	color: black;
+}
+
 .mid-profil {
 	width: 100%;
 	height: 10%;
@@ -609,57 +640,79 @@ halaman profil */
 	border-bottom: 3px solid black;
 }
 .bottom-profil {
+	overflow: auto;
 	width: 80%;
-	min-height: 60%;
+	min-height: 50%;
 	display: flex;
 	align-items: start;
-	justify-content: start;
+	justify-content: center;
 	flex-wrap: wrap;
 }
 .album-profil {
 	margin: 10px;
-	width: 200px;
+	width: 300px;
 	height: 100px;
 	background-color: rgba(0, 0, 0, 0.463);
 	border-radius: 10px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	flex-direction: column;
 	border: 2px solid rgba(0, 0, 0, 0.463);
 }
-.top-prl {
-	border-radius: 10px 10px 0 0;
+.kiri-profil {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 30%;
+	height: 100%;
+	border-radius: 10px 0 0 10px;
+}
+.kiri-profil img {
 	width: 100%;
-	height: 70%;
+	border-radius: 10px 0 0 10px;
+	height: 100%;
+}
+.kanan-profil {
+	flex-direction: column;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 70%;
+	height: 100%;
+}
+.top-prl {
+	border-radius: 0 10px 0 0;
+	width: 100%;
+	height: 80%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	background-color: rgb(255, 255, 255);
 }
 .bottom-prl {
-	border-radius: 0 0 10px 10px;
+	border-radius: 0 0 10px 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: 100%;
-	height: 30%;
+	height: 20%;
 	color: white;
 	background-color: rgb(0, 0, 0);
 }
+
 /* 
 halamanprofilfoto */
 .foto-profil-p {
 	margin: 10px;
 	width: 300px;
 	height: 200px;
-	background-color: rgba(0, 0, 0, 0.463);
+	background-color: rgba(0, 0, 0, 0.063);
 	border-radius: 10px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	border: 2px solid rgba(0, 0, 0, 0.463);
+	border: 1px solid rgba(0, 0, 0, 0.071);
 }
 .foto-profil-p img {
 	width: 100%;
@@ -712,5 +765,149 @@ halaman cari  */
 	.modal {
 		width: 80%;
 		height: auto;
+	}
+}
+
+/* halaman edit profil */
+.edit-profil-cnt {
+	display: flex;
+	width: 100%;
+	height: 100vh;
+	margin-top: 70px;
+}
+
+.sidbar-profil {
+	display: flex;
+	justify-content: start;
+	align-items: start;
+	width: 20%;
+	background-color: #00000007;
+	padding: 20px;
+	flex-direction: column;
+	/* Tambahkan padding sesuai kebutuhan */
+}
+.sidbar-profil a {
+	margin: 15px;
+	margin-left: 10px;
+	color: black;
+}
+
+.content-profil-cnt {
+	overflow: auto;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	flex-wrap: wrap;
+	width: 80%;
+	background-color: #ffffff;
+	padding: 20px;
+	/* Tambahkan padding sesuai kebutuhan */
+}
+.album-edit {
+	margin: 10px;
+	background-color: rgba(0, 0, 0, 0.13);
+	width: 200px;
+	height: 200px;
+	border-radius: 10px;
+}
+
+.content-foto-cnt {
+	overflow: auto;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	flex-wrap: wrap;
+	width: 80%;
+	background-color: #ffffff;
+	padding: 20px;
+	/* Tambahkan padding sesuai kebutuhan */
+}
+.foto-edit {
+	margin: 10px;
+	background-color: rgba(0, 0, 0, 0.13);
+	width: 200px;
+	height: 200px;
+	border-radius: 10px;
+}
+.cnt-profil-kanan {
+	background-color: #00000004;
+	width: 50%;
+	height: 100%;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	flex-direction: column;
+}
+.top-profil-cnt {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	width: 100%;
+	height: 10%;
+}
+.top-profil-cnt p {
+	font-size: 20px;
+}
+.mid-profil-cnt {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	width: 100%;
+	height: 20%;
+}
+.mid-profil-cnt p {
+	margin-left: 10px;
+	font-size: 17px;
+}
+.mid-profil-cnt img {
+	border-radius: 100%;
+	width: 70px;
+	height: 70px;
+}
+.bottom-profil-cnt {
+	position: relative;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+	height: 70%;
+	background-color: aqua;
+}
+.input-form-cnt {
+	background-color: grey;
+	border-radius: 20px;
+	display: flex;
+	justify-content: start;
+	width: 100%;
+	height: 10%;
+	margin: 10px;
+}
+.input-form-cnt input {
+	border-radius: 20px;
+	border: 5px solid rgba(0, 0, 0, 0.074);
+	width: 100%;
+	height: 100%;
+}
+.simpan-profil {
+	position: absolute;
+	bottom: 20%;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100px;
+	height: 40px;
+	border-radius: 20px;
+	background-color: #0000001b;
+}
+/* Media query untuk tampilan responsif pada layar yang lebih kecil */
+@media (max-width: 768px) {
+	.sidbar-profil {
+		width: 100%;
+	}
+
+	.content-profil-cnt {
+		width: 100%;
 	}
 }

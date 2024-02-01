@@ -5,12 +5,17 @@
 </div>
 <div class="bottom-profil">
     <?php foreach ($albums as $album) : ?>
-        <div class="album-profil">
-            <div class="top-prl">
-                <h1><?php echo $album->nama_album; ?></h1>
+        <div class="album-profil">  
+            <div class="kiri-profil">
+                <img src="<?= base_url() ?>albums/<?php echo $album->cover; ?>" alt="">
             </div>
-            <div class="bottom-prl">
-                <h5><?php echo $album->tgl_buat; ?></h5>
+            <div class="kanan-profil">
+                <div class="top-prl">
+                    <h1><?php echo $album->nama_album; ?></h1>
+                </div>
+                <div class="bottom-prl">
+                    <h5><?php echo $album->tgl_buat; ?></h5>
+                </div>
             </div>
         </div>
     <?php endforeach; ?>

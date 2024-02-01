@@ -27,7 +27,7 @@ class Foto extends CI_Controller
     {
         // Ambil data foto dari database
         $data['fotos'] = $this->M_foto->getFotos();
-
+        
         // Load view
         $this->load->view('admin/sidebar');
         $this->load->view('foto/content', $data);

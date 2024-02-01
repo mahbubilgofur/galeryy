@@ -356,4 +356,174 @@ class Home extends CI_Controller
         $this->load->view('home/header');
         $this->load->view('home/fitur-cari');
     }
+
+
+    public function editprofil($id_user)
+    {
+        // Periksa apakah id_user valid atau sesuai dengan pengguna yang sedang login
+        if (!$id_user || $id_user != $this->session->userdata('id_user')) {
+            // Redirect atau tampilkan pesan error jika id_user tidak valid
+            redirect('home'); // Ganti dengan URL yang sesuai
+        }
+        // Load model
+        $this->load->model('M_user');
+        $data['user'] = $this->M_user->getUserById($id_user);
+        $this->load->view('home/header');
+        $this->load->view('home/content-edit-profil', $data);
+    }
+    public function update($id)
+    {
+        // Form submission logic for updating user
+        if ($this->input->post()) {
+            $config['upload_path'] = './users/';
+            $config['allowed_types'] = 'jpg|jpeg|png';
+            $config['max_size'] = 1024;
+
+            $this->load->library('upload', $config);
+
+            // Check if the profil_image file is submitted
+            if (!empty($_FILES['profil_image']['name'])) {
+                if ($this->upload->do_upload('profil_image')) {
+                    $upload_data = $this->upload->data();
+
+                    // Delete the old image if it exists
+                    $old_image_path = FCPATH . 'users/' . $this->input->post('old_profil_image');
+                    if (file_exists($old_image_path)) {
+                        unlink($old_image_path);
+                    }
+
+                    // Move the uploaded image to the user's profile directory with the original name
+                    $profil_image = $upload_data['file_name'];
+                    rename($upload_data['full_path'], FCPATH . 'users/' . $profil_image);
+                } else {
+                    // Jika upload gambar gagal, set pesan error dan kembali ke halaman edit profil
+                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    redirect('user/edit/' . $id);
+                }
+            }
+
+            $data = array(
+                'username' => $this->input->post('username'),
+                'email' => $this->input->post('email'),
+
+            );
+
+
+
+            // Update user data including the new profil_image if submitted
+            $data['profil'] = isset($profil_image) ? $profil_image : $this->input->post('old_profil_image');
+            $this->M_user->updateUser($id, $data);
+
+            // Redirect or show success message
+            redirect('home/editprofil/' . $id);
+        } else {
+            // Load the edit view if no form submission
+            $data['user'] = $this->M_user->getUserById($id);
+
+            if (!$data['user']) {
+                // Handle if user is not found
+                show_404();
+            }
+
+            $this->load->view('home/header');
+            $this->load->view('home/content-edit-profil', $data);
+        }
+    }
+
+
+
+    // private function updateProfil($id_user)
+    // {
+    //     // Load model
+    //     $this->load->model('M_user');
+
+    //     // Validasi form    
+    //     $this->form_validation->set_rules('username', 'Username', 'required');
+    //     $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+
+    //     // Ambil data pengguna dari model
+    //     $user_data = $this->M_user->get_data_user($id_user);
+
+    //     // Tentukan apakah kolom profil akan diubah atau tidak
+    //     $upload_profil = $this->input->post('upload_profil');
+
+    //     if ($this->form_validation->run() == FALSE) {
+    //         // Validasi gagal, kembali ke halaman edit profil dengan pesan error
+    //         $this->session->set_flashdata('error', validation_errors());
+    //         redirect('home/editprofil/' . $id_user);
+    //     } else {
+    //         // Data yang akan diupdate
+    //         $data = array(
+    //             'username' => $this->input->post('username'),
+    //             'email' => $this->input->post('email')
+    //         );
+
+    //         // Tentukan apakah kolom profil akan diubah atau tidak
+    //         $upload_profil = $this->input->post('upload_profil');
+
+    //         if ($upload_profil) {
+    //             // Proses update profil dengan mengganti gambar profil
+    //             $config['upload_path'] = './users/';
+    //             $config['allowed_types'] = 'jpg|jpeg|png';
+    //             $config['max_size'] = 1024;
+
+    //             $this->load->library('upload', $config);
+
+    //             // Jika file gambar diunggah
+    //             if ($this->upload->do_upload('profil_image')) {
+    //                 $upload_data = $this->upload->data();
+    //                 $profil_image = $id_user . '_' . date('YmdHis') . $upload_data['file_ext']; // Buat nama file baru dengan format id_user_tgljam.ext
+
+    //                 $new_image_path = FCPATH . 'users/' . $profil_image;
+
+    //                 // Delete the old image if it exists
+    //                 $old_image_path = FCPATH . 'users/' . $user_data->profil;
+    //                 if (file_exists($old_image_path)) {
+    //                     unlink($old_image_path);
+    //                 }
+
+    //                 // Move the uploaded image to the user's profile directory with the new name
+    //                 rename($upload_data['full_path'], $new_image_path);
+
+    //                 // Tambahkan kolom profil ke data yang akan diupdate
+    //                 $data['profil'] = $profil_image;
+    //             } else {
+    //                 // Jika upload gambar gagal, set pesan error dan kembali ke halaman edit profil
+    //                 $this->session->set_flashdata('error', $this->upload->display_errors());
+    //                 redirect('home/editprofil/' . $id_user);
+    //             }
+    //         }
+
+    //         // Update data user hanya jika ada perubahan pada username atau email atau profil
+    //         if (
+    //             $data['username'] !== $user_data->username ||
+    //             $data['email'] !== $user_data->email ||
+    //             isset($data['profil'])
+    //         ) {
+    //             // Update data user
+    //             $this->M_user->updateUserProfile($id_user, $data);
+
+    //             // Set pesan berhasil dan kembali ke halaman edit profil
+    //             $this->session->set_flashdata('success', 'Profil berhasil diperbarui.');
+    //             redirect('home/editprofil/' . $id_user);
+    //         } else {
+    //             // Tidak ada perubahan, kembali ke halaman edit profil
+    //             redirect('home/editprofil/' . $id_user);
+    //         }
+    //     }
+    // }
+
+
+
+
+    public function edit_album()
+    {
+        $this->load->view('home/header');
+        $this->load->view('home/content-edit-profil_album');
+    }
+    public function edit_foto()
+    {
+        $this->load->view('home/header');
+        $this->load->view('home/content-edit-profil_foto');
+    }
 }
